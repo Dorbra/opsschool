@@ -26,8 +26,12 @@ fi
 
 scp -r $SOURCES vagrant@$DESTHOST:$DESTFOLDER 
 
-BYTESCOUNT=0
-for i in  $SOURCES ; do
-	let "`stat -c "%s"  $i` + $BCOUNT"
+TOTALBYTES=0
+for file in  $SOURCES ; do
+	SIZE = $(stat -c %s "$file");
+	printf "current %d total %dn" "$SIZE" "$((TOTALBYTES += SIZE))"
 done
+#do
+# 	let "`stat -c "%s"  $i` + $BCOUNT"
+# done
 echo $BYTESCOUNT
