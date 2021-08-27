@@ -1,3 +1,4 @@
+
 #!/bin/bash
 #add fix to exercise6-fix here
 if [[ $# -lt 2 ]]
@@ -24,10 +25,15 @@ else
 	fi
 fi
 
+echo "Copying files... "
 scp -r $SOURCES vagrant@$DESTHOST:$DESTFOLDER 
+echo "Files copied..."
 
-BYTESCOUNT=0
-for i in  $SOURCES ; do
-	let "`stat -c "%s"  $i` + $BCOUNT"
+declare -i TOTAL=0
+for file in $SOURCES; do
+	size=$(stat -c %s "$file");
+	TOTAL=$size+$TOTAL
+	echo "file $file size: $size"
 done
-echo $BYTESCOUNT
+
+echo "Total size is: $TOTAL"
